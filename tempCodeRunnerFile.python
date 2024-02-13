@@ -1,0 +1,47 @@
+class MySet:
+    def __init__(self, initial_values):
+        # Initialize attributes
+        self.__s = []  # Values in the set
+        self.__size = 0  # Number of values in the set
+
+        # Iterate through initial values and add unique values to the set
+        for value in initial_values:
+            if value not in self.__s:
+                self.__s.append(value)
+                self.__size += 1
+
+    def search(self, value_to_search):
+        # Iterate through items in the set
+        for item in self.__s:
+            # Check if the item matches the value we're searching for
+            if item == value_to_search:
+                return True  # Value found in the set
+
+        # If the loop completes without finding the value, return False
+        return False  # Value not found in the set
+
+    def insert(self, value_to_insert):
+        # Check if the value is not already in the set
+        if value_to_insert not in self.__s:
+            # Insert the new value at the end of the set
+            self.__s.append(value_to_insert)
+            self.__size += 1
+
+    def delete(self, value_to_delete):
+        # Check if the value to delete is in the set
+        if value_to_delete in self.__s:
+            # Iterate through items in the set
+            for idx, item in enumerate(self.__s):
+                # Find the index of the value to delete
+                if item == value_to_delete:
+                    # Remove the value at the found index
+                    del self.__s[idx]
+                    self.__size -= 1
+                    return True  # Value deleted successfully
+
+        return False  # Value not found or not deleted
+
+    def traverse(self):
+        # Iterate through items in the set and print each item
+        for item in self.__s:
+            print(item)
