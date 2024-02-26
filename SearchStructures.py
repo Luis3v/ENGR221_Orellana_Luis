@@ -1,8 +1,9 @@
 """
-WRITE YOUR PROGRAM HEADER HERE
+Luis orellana
+search structures.py
 """
 
-# Implementation of a Stack
+# Implementation of a Stack data structure
 class Stack():
     def __init__(self):
         # Initialize an empty list to store the elements of the stack
