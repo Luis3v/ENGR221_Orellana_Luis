@@ -1,0 +1,95 @@
+"""
+uis Orellana
+DDeque.Py
+"""
+
+from .doublyLinkedList import DoublyLinkedList
+
+class Deque:
+    def __init__(self):
+        # Initialize a Deque with a DoublyLinkedList to store values
+        self.__values = DoublyLinkedList()
+
+    def isEmpty(self):
+        """
+        Check whether the Deque is empty.
+
+        Returns:
+            bool: True if the Deque is empty, False otherwise.
+        """
+        return self.__values.isEmpty()
+
+    def __len__(self):
+        """
+        Get the number of elements in the Deque.
+
+        Returns:
+            int: Number of elements in the Deque.
+        """
+        return len(self.__values)
+
+    def __str__(self):
+        """
+        Get a string representation of the Deque.
+
+        Returns:
+            str: String representation of the Deque.
+        """
+        return str(self.__values)
+
+    def peekLeft(self):
+        """
+        Get the value at the left end of the Deque without removing it.
+
+        Returns:
+            Any: Value at the left end of the Deque.
+        """
+        return self.__values.first()
+
+    def peekRight(self):
+        """
+        Get the value at the right end of the Deque without removing it.
+
+        Returns:
+            Any: Value at the right end of the Deque.
+        """
+        return self.__values.getLastNode().getValue()
+
+    def insertLeft(self, value):
+        """
+        Insert a value at the left end of the Deque.
+
+        Args:
+            value (Any): The value to insert.
+        """
+        self.__values.insertFront(value)
+
+    def insertRight(self, value):
+        """
+        Insert a value at the right end of the Deque.
+
+        Args:
+            value (Any): The value to insert.
+        """
+        self.__values.insertBack(value)
+
+    def removeLeft(self):
+        """
+        Remove and return the value at the left end of the Deque.
+
+        Returns:
+            Any: Value at the left end of the Deque.
+        """
+        return self.__values.deleteFirstNode()
+
+    def removeRight(self):
+        """
+        Remove and return the value at the right end of the Deque.
+
+        Returns:
+            Any: Value at the right end of the Deque.
+        """
+        return self.__values.deleteLastNode()
+    
+if __name__ == "__main__":
+    pass
