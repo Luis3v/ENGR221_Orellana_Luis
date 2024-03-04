@@ -1,0 +1,100 @@
+"""
+Luis Orellana
+DoublyLinkedList.Py
+"""
+
+from .doubleNode import DoubleNode 
+
+class DoubleNode:
+    def __init__(self, value, previous=None, next_node=None):
+        self.value = value
+        self.previous = previous
+        self.next = next_node
+
+    def isFirst(self):
+        # Check if the node is the first in the list.
+        return self.previous is None
+
+    def isLast(self):
+        # Check if the node is the last in the list.
+        return self.next is None
+
+    def getValue(self):
+        # Get the value stored in the node.
+        return self.value
+
+    def getNextNode(self):
+        # Get the next node in the list.
+        return self.next
+
+    def getPreviousNode(self):
+        # Get the previous node in the list.
+        return self.previous
+
+    def setValue(self, new_value):
+        # Set a new value for the node.
+        self.value = new_value
+
+    def setNextNode(self, new_next):
+        # Set a new next node for the current node.
+        self.next = new_next
+
+    def setPreviousNode(self, new_previous):
+        # Set a new previous node for the current node.
+        self.previous = new_previous
+
+    def __str__(self):
+        # Overloaded __str__ method to provide a string representation of the node.
+        return str(self.value)
+
+
+
+class DoublyLinkedList:
+    def __init__(self):
+        # Constructor to initialize an empty doubly linked list.
+        self.first = None
+        self.last = None
+
+    def isEmpty(self):
+        # Check if the doubly linked list is empty.
+        return self.first is None
+
+    def getFirstNode(self):
+        # Get the first node in the list.
+        return self.first
+
+    def getLastNode(self):
+        # Get the last node in the list.
+        return self.last
+
+    def first(self):
+        # Get the value of the first node in the list.
+        if self.isEmpty():
+            raise Exception("List is empty")
+        return self.first.getValue()
+
+    def setFirstNode(self, node):
+        # Set the first node of the list to a new double node.
+        if not isinstance(node, DoubleNode) and node is not None:
+            raise Exception("Input is not a DoubleNode or None")
+        self.first = node
+
+    def setLastNode(self, node):
+        # Set the last node of the list to a new double node.
+        if not isinstance(node, DoubleNode) and node is not None:
+            raise Exception("Input is not a DoubleNode or None")
+        self.last = node
+
+    def __str__(self):
+        # Overloaded __str__ method to provide a string representation of the doubly linked list.
+        result = []
+        current = self.first
+        while current is not None:
+            result.append(str(current.getValue()))
+            current = current.getNextNode()
+            if current is not None:
+                result.append("<->")
+        return "[" + " ".join(result) + "]"
+
+if __name__ == "__main__":
+    pass
