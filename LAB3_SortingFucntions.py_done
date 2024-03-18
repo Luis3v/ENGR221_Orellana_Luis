@@ -7,31 +7,29 @@ Luis orellana
 import time, random
 
 # Implementation of insertionSort algorithm
-def insertionSort(list_to_sort):
-    # Iterate through the list, starting from the second element (index 1)
+def insertionSort(list_to_sort: list) -> None:
+    # Iterate through all elements in the list starting from the second element
     for i in range(1, len(list_to_sort)):
-        j = i
-        # Move elements greater than the current element to the right
-        # until a smaller or equal element is encountered
-        while j > 0 and list_to_sort[j-1] > list_to_sort[j]:
-            # Swap the current element with its predecessor
-            list_to_sort[j], list_to_sort[j-1] = list_to_sort[j-1], list_to_sort[j]
-            # Move to the previous index forcomparisons
+        key = list_to_sort[i]
+        j = i - 1
+        # Move elements of list_to_sort[0..i-1], that are greater than key,
+        # to one position ahead of their current position
+        while j >= 0 and key < list_to_sort[j]:
+            list_to_sort[j + 1] = list_to_sort[j]
             j -= 1
+        list_to_sort[j + 1] = key
 
 # Implementation of bubbleSort algorithm
-def bubbleSort(list_to_sort):
-    # Get the length of the input list
+def bubbleSort(list_to_sort: list) -> None:
     n = len(list_to_sort)
+    # Traverse through all elements in the list
+    for i in range(n):
+        # Last i elements are already in place, so the inner loop can avoid checking them
+        for j in range(0, n-i-1):
+            # Swap if the element found is greater than the next element
+            if list_to_sort[j] > list_to_sort[j+1]:
+                list_to_sort[j], list_to_sort[j+1] = list_to_sort[j+1], list_to_sort[j]
 
-    # Outer loop for each pass through the list
-    for i in range(n - 1):
-        # Inner loop for comparing and swapping elements
-        for j in range(n - 1 - i):
-            # Check if the current element is greater than the next one
-            if list_to_sort[j] > list_to_sort[j + 1]:
-                # Swap the elements if they are out of order
-                list_to_sort[j], list_to_sort[j + 1] = list_to_sort[j + 1], list_to_sort[j]
 
 # Returns a random list of the given length
 def createRandomList(length):
