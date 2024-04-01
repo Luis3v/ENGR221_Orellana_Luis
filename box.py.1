@@ -1,0 +1,62 @@
+from myHashMap import MyHashMap
+from entry import Entry
+
+class Box:
+    def __init__(self):
+        self.nicknameMap = MyHashMap()
+        # Removed the automatic population on initialization.
+        # The populateBox method should be called explicitly with the correct file path.
+
+    def populateBox(self, inputFile):
+        with open(inputFile, 'r') as file:
+            for line in file:
+                nickname, species = line.strip().split()
+                self.add(nickname, species)
+
+    def add(self, nickname, species):
+        if self.nicknameMap.containsKey(nickname):
+            return False
+        self.nicknameMap.put(nickname, Entry(nickname, species))
+        return True
+
+    def find(self, nickname, species):
+        entry = self.nicknameMap.get(nickname)
+        if entry and entry.species == species:
+            return entry
+        return None
+
+    def findAllNicknames(self):
+        return self.nicknameMap.keys()
+
+    def findEntryByNickname(self, nickname):
+        if self.nicknameMap.containsKey(nickname):
+            return self.nicknameMap.get(nickname)
+        return None
+
+    def removeByNickname(self, nickname):
+        return self.nicknameMap.remove(nickname)
+
+    def removeEntry(self, nickname, species):
+        entry = self.find(nickname, species)
+        if entry:
+            return self.removeByNickname(nickname)
+        return False
+
+if __name__ == '__main__':
+    box = Box()
+    def test_add(self):
+            self.assertTrue(self.box.add('Goldie', 'Fish'))
+            self.assertFalse(self.box.add('Goldie', 'Fish'))  # Duplicate entry
+
+        def test_find(self):
+            self.box.add('Whiskers', 'Cat')
+            entry = self.box.find('Whiskers', 'Cat')
+            self.assertIsNotNone(entry)
+            self.assertIsNone(self.box.find('Whiskers', 'Dog'))  # Wrong species
+
+        def test_findAllNicknames(self):
+            self.assertIn('Whiskers', self.box.findAllNicknames())
+            self.assertNotIn('Nonexistent', self.box.findAllNicknames())
+
+
+            
