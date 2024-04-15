@@ -1,0 +1,226 @@
+"""
+Luis Orellana
+9/14/23
+search functions in data struc
+
+"""
+
+class BinarySearchTree:
+    """   A BinarySearchTree (BST) is a tree data structure that keeps its elements (nodes) in sorted order. 
+    Each node has a key and a value. The trees structure ensures that for each node, all elements 
+    in the left subtree have keys less than the node's key and all elements in the right subtree 
+    have keys greater than the node's key. """
+
+    def __init__(self):
+        self.__root = None # The root Node of this BST
+
+    def insert(self, insertKey, insertValue):
+        """ Inserts the given key and value into the BST.
+            Inputs:
+                - insertKey: (any) The key to insert
+                - insertValue: (any) The value to insert
+            Returns: None
+        """
+        # Update the root to include the inserted node
+        self.__root = self.__insertHelp(self.__root, insertKey, insertValue)
+    
+    def __insertHelp(self, node, insertKey, insertValue):
+        """ A recursive helper method to insert a new node 
+            with the given key and value into the BST.
+            Inputs:
+                - node: (Node) The root of the subtree to insert into
+                - insertKey: (any) The key to insert
+                - insertvalue: (any) The value to insert
+            Returns: The node to insert """
+        # Base case - Insert the node as a leaf in the appropriate location
+        if node == None:
+            return self.__Node(insertKey, insertValue)
+        # Insert the key into the left subtree if it is less than the current key
+        elif insertKey < node.key:
+            node.left = self.__insertHelp(node.left, insertKey, insertValue)
+        # Insert the key into the right subtree if it is greater than the current key
+        elif insertKey > node.key:
+            node.right = self.__insertHelp(node.right, insertKey, insertValue)
+        # Return the node with the node inserted
+        return node
+
+    def isEmpty(self):
+        """Check whether the BST is empty
+    Returns:
+        bool: true if the tree is empty otherwise False
+    """
+        return self.__root is None
+
+    
+    def getRoot(self):
+     """get the root node of the BST
+    Returns:
+        Node: The root Node of the BST
+    """
+     return self.__root
+
+
+    def search(self, goalKey):
+     """
+    Search for a node with a specified key in the binary search tree
+    Returns:
+        Node: The node with the key matching goalKey or none if no such node exists in the tree
+    """
+     return self.__searchHelp(self.__root, goalKey)
+
+    def __searchHelp(self, node, goalKey):
+     """ a recursive method to help with the search() method which searches for a given key in the BST
+        goalKey (any): The key to search for
+    Returns:
+        Node: The node with the key goalKey if found otherwise None
+    """
+
+    if node is None:
+        return None
+    elif node.key == goalKey:
+        return node
+    elif goalKey < node.key:
+        return self.__searchHelp(node.left, goalKey)
+    else:
+        return self.__searchHelp(node.right, goalKey)
+
+
+    def lookup(self, goal):
+     """Get the value of the given key
+    Returns:
+        any: The value of the goal key if found otherwise raises exception
+    """
+    node = self.search(goal)
+    if node:
+        return node.value
+    else:
+        raise Exception("Key not found.")
+
+
+    def findSuccessor(self, subtreeRoot):
+        """
+    find the successor of a given node in the BST.
+        Node: The successor node if one exists or none if the given node has no successor
+      """
+        return self.__findSuccessorHelp(subtreeRoot)
+    
+    def __findSuccessorHelp(self, node):
+     """A recursive method to help with the findSuccessor() method, which finds the smallest key in the subtree.
+    Args:
+        node (Node): The root node of the subtree to find the successor of.
+    Returns:
+        Node: The successor Node, or None if there is no successor.
+    """
+    if node is None:
+        return None
+    while node.left is not None:
+        node = node.left
+     return node
+
+    
+    def delete(self, deleteKey):
+        """
+    delete a node with the given key from the binary search tree.
+        this method removes the node whose key is equal to the deleteKey. If the node to be deleted has two children, the method follows the standard BST deletion process
+Returns:
+        None: this method does not return anything. it modifies the tree in place.
+Raises:
+        Exception: if the deleteKey is not found in the tree, an exception is raised to indicate that the node cannot be deleted because it does not exist
+    """
+        if self.search(deleteKey):
+            return self.__deleteHelp(self.__root, deleteKey)
+        raise Exception("Key not in tree.")
+    
+    def __deleteHelp(self, node, deleteKey):
+     """A recursive method to help with the delete() method, which deletes the node with the given key from the BST
+        node: the root node of the subtree to delete from
+        deleteKey: the key to delete.
+    Returns:
+        Node: The updated node with the specified node deleted
+    """
+    if node is None:
+        return None
+    if deleteKey < node.key:
+        node.left = self.__deleteHelp(node.left, deleteKey)
+    elif deleteKey > node.key:
+        node.right = self.__deleteHelp(node.right, deleteKey)
+    else:
+        if node.left is None:
+            return node.right
+        elif node.right is None:
+            return node.left
+        temp = self.__findSuccessorHelp(node.right)
+        node.key, node.value = temp.key, temp.value
+        node.right = self.__deleteHelp(node.right, node.key)
+    return node
+
+
+    def traverse(self) -> None:
+        """
+    traverse the entire binary search tree in order and print each node's key and value
+
+    this method performs an in order traversal of the BST starting from the root.
+
+    Returns:
+        None: This method prints each node's key and value to the console and does not return anything.
+    """
+        self.__traverseHelp(self.__root)
+
+    def __traverseHelp(self, node):
+     """A recursive method to help with the traverse() method, which visits each node in the tree, in ascending order.
+    Args:
+        node (Node): The root node of the subtree to traverse.
+    Returns:
+        None, but should print each node in the order visited.
+    """
+    if node is not None:
+        self.__traverseHelp(node.left)
+        print(node)
+        self.__traverseHelp(node.right)
+
+
+    def __str__(self) -> str:
+        """ Represent the tree as a string. Formats as 
+            {(rootkey, rootval), {leftsubtree}, {rightsubtree}} """
+        return self.__strHelp("", self.__root)
+    
+    def __strHelp(self, return_string, node) -> str:
+        """ A recursive helper method to format the tree as a string. 
+            Input: 
+                - return_string: (string) Accumulates the final string to output
+                - node: (Node) The current node to format
+            Returns: A formatted string for this node. """
+        # Base case - Represent an empty branch as "None"
+        if node == None:
+            return "None"
+        # Recursively build the string to return
+        # Note, this is equivalent to
+        #   return "{" + node + ", " + \
+        #                self.strHelp(return_string, node.left) + ", " + \
+        #                self.strHelp(return_string, node.right) + "}"
+        return "{{{}, {}, {}}}".format(node, 
+                                       self.__strHelp(return_string, node.left), 
+                                       self.__strHelp(return_string, node.right))
+            
+
+    ##############
+    # NODE CLASS #
+    ##############
+
+    class __Node:
+        """ Implementation of a node in a BST. Note that it is 
+            private, so it cannot be accessed outside of a BST """
+
+        def __init__(self, key, value, left=None, right=None):
+            self.key = key         # The key of the root node of this tree
+            self.value = value     # The value held by the root node of this tree
+            self.left = left       # Points to the root of the left subtree
+            self.right = right     # Points to the root of the right subtree
+
+        def __str__(self):
+            """ Represent the node as a string.
+                Formats as "{key, value}" """
+            return "({}, {})".format(self.key, self.value)
+        
+if __name__ == "__main__":
+    pass
